@@ -42,22 +42,40 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        val intent = Intent(this, MediaPlayerService::class.java)
         val playBtn = findViewById<ImageButton>(R.id.playButton)
         val nextBtn = findViewById<ImageButton>(R.id.nextButton)
         val previousBtn = findViewById<ImageButton>(R.id.previousButton)
 
         playBtn.setOnClickListener {
             if (mediaPlayerService?.isPlaying() == true) {
-                val intent = Intent(this, MediaPlayerService::class.java)
                 intent.action = ACTION_PAUSE
                 startService(intent)
-                playBtn.setImageResource(R.drawable.play)
             } else {
-                val intent = Intent(this, MediaPlayerService::class.java)
                 intent.action = ACTION_PLAY
                 startService(intent)
-                playBtn.setImageResource(R.drawable.pause)
             }
+            playPauseState(mediaPlayerService?.isPlaying())
         }
+        nextBtn.setOnClickListener {
+            intent.action = ACTION_NEXT
+            startService(intent)
+            playPauseState(mediaPlayerService?.isPlaying())
+        }
+        previousBtn.setOnClickListener {
+            intent.action = ACTION_PREVIOUS
+            startService(intent)
+            playPauseState(mediaPlayerService?.isPlaying())
+        }
+    }
+
+    private fun playPauseState(isPlaying: Boolean?) {
+        val playBtn = findViewById<ImageButton>(R.id.playButton)
+        val imgRes = if (isPlaying == true) {
+            R.drawable.play
+        } else {
+            R.drawable.pause
+        }
+        playBtn.setImageResource(imgRes)
     }
 }

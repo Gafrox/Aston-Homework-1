@@ -10,7 +10,6 @@ import ru.gustavo.astonhomework1.Const.ACTION_PAUSE
 import ru.gustavo.astonhomework1.Const.ACTION_PLAY
 import ru.gustavo.astonhomework1.Const.ACTION_PREVIOUS
 
-
 private val musicsList = listOf(R.raw.ty_eto_seryozno, R.raw.moskva_ljubit, R.raw.privychka)
 private var musicIndex = 0
 
@@ -18,8 +17,7 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener {
     private var mediaPlayer: MediaPlayer? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val action = intent.action
-        when (action) {
+        when (intent.action) {
             ACTION_PLAY -> {
                 if (mediaPlayer == null) {
                     initPlayer()
@@ -31,11 +29,13 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener {
                 mediaPlayer?.pause()
             }
             ACTION_NEXT -> {
-                musicIndex = if (musicIndex + 1 > musicsList.lastIndex) 0 else musicIndex++
+                mediaPlayer?.release()
+                musicIndex = if (musicIndex + 1 > musicsList.lastIndex) 0 else musicIndex + 1
                 initPlayer()
             }
             ACTION_PREVIOUS -> {
-                musicIndex = if (musicIndex - 1 < 0) musicsList.lastIndex else musicIndex--
+                mediaPlayer?.release()
+                musicIndex = if (musicIndex - 1 < 0) musicsList.lastIndex else musicIndex - 1
                 initPlayer()
             }
         }
