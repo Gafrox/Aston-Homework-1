@@ -54,11 +54,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
+        android:id="@+id/seekBar"
         android:layout_width="332dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:progress="50"
         android:thumbTint="#00A9FE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
