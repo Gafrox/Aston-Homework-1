@@ -9,8 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
-import android.widget.ImageButton
-import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -50,16 +48,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        supportActionBar?.hide()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkPermission()
         }
         val intent = Intent(this, MediaPlayerService::class.java)
-        val playBtn = findViewById<ImageButton>(R.id.playButton)
-        val nextBtn = findViewById<ImageButton>(R.id.nextButton)
-        val previousBtn = findViewById<ImageButton>(R.id.previousButton)
+        val playBtn = binding.playButton
+        val nextBtn = binding.nextButton
+        val previousBtn = binding.previousButton
         playBtn.setOnClickListener {
             if (mediaPlayerService?.isPlaying() == true) {
                 intent.action = ACTION_PAUSE
@@ -82,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateSeekBar() {
-        val seekBar = findViewById<SeekBar>(R.id.seekBar)
+        val seekBar = binding.seekBar
         seekBar.isEnabled = false
         val handler = Handler()
         handler.postDelayed(object : Runnable {

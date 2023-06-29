@@ -27,8 +27,6 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener,
     private var currentPosition: Int = 0
     private var totalDuration: Int = 0
     private lateinit var notificationManager: NotificationManager
-
-
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createNotificationChannel()
@@ -89,7 +87,6 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     private fun onStart() = mediaPlayer?.start()
-
     override fun onBind(p0: Intent?): IBinder {
         return PlayerBinder()
     }
@@ -117,7 +114,6 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener,
 
     fun getCurrentPosition(): Int = currentPosition
     fun getTotalDuration(): Int = totalDuration
-
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -147,7 +143,6 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener,
             "Play",
             playPendingIntent
         ).build()
-
         val pauseIntent = Intent(this, MediaPlayerService::class.java)
         pauseIntent.action = ACTION_PAUSE
         val pausePendingIntent = PendingIntent.getService(this, 0, pauseIntent, FLAG_IMMUTABLE)
@@ -156,7 +151,6 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener,
             "Pause",
             pausePendingIntent
         ).build()
-
         val nextIntent = Intent(this, MediaPlayerService::class.java)
         nextIntent.action = ACTION_NEXT
         val nextPendingIntent = PendingIntent.getService(this, 0, nextIntent, FLAG_IMMUTABLE)
@@ -165,7 +159,6 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener,
             "Next",
             nextPendingIntent
         ).build()
-
         val previousIntent = Intent(this, MediaPlayerService::class.java)
         previousIntent.action = ACTION_PREVIOUS
         val previousPendingIntent =
@@ -175,7 +168,6 @@ class MediaPlayerService : Service(), MediaPlayer.OnPreparedListener,
             "Previous",
             previousPendingIntent
         ).build()
-
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.play)
             .setContentTitle("Media Player")
